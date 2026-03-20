@@ -1,9 +1,6 @@
----
-name: slow-plan-optimization
-description: Template skill for slow plan optimization in TiDB. Use when adding or refining workflow instructions, references, and scripts for diagnosing and improving slow or regressed execution plans.
----
+# Slow Plan Optimization Sub-Module
 
-# Slow Plan Optimization
+This is a sub-module of `tidb-query-tuning`, not an independent skill entry point.
 
 ## Required Inputs
 
