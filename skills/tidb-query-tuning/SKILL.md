@@ -67,6 +67,7 @@ Use this skill to diagnose and resolve TiDB query performance issues. It follows
 
 ## References
 
+- `references/slow-plan-optimization/guide.md` — Slow-plan optimization sub-module with workflow, guardrails, and case catalog.
 - `references/clues.md` — Detailed SQLs and metrics for clue collection.
 - `references/reproduction.md` — Baseline investigation and known version issues.
 - `references/plan-replayer-testing.md` — Local reproduction using TiUP and PLAN REPLAYER.
