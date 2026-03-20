@@ -65,3 +65,4 @@ description: Template skill for slow plan optimization in TiDB. Use when adding 
 - `references/cases/use-tiflash-to-speed-up-large-scan.md` - Use TiFlash for large scan and analytical workloads.
 - `references/cases/use-tiflash-mpp-for-large-join.md` - Use TiFlash or MPP for large joins when index-based join optimization is not feasible.
 - `references/cases/use-tiflash-mpp-for-large-aggregation.md` - Use TiFlash or MPP for large aggregations when index-based StreamAgg optimization is not feasible.
+- `references/cases/use-index-merge-for-dnf-predicates.md` - Consider IndexMerge for DNF predicates such as `a = ? OR b = ? OR c > ?`.
