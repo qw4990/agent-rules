@@ -61,4 +61,7 @@ description: Template skill for slow plan optimization in TiDB. Use when adding 
 
 ## Useful References
 
-- TODO: Add reference links.
+- `references/cases/use-covering-index-to-avoid-double-scan.md` - Use covering indexes to reduce index lookup double-read cost.
+- `references/cases/use-tiflash-to-speed-up-large-scan.md` - Use TiFlash for large scan and analytical workloads.
+- `references/cases/use-tiflash-mpp-for-large-join.md` - Use TiFlash or MPP for large joins when index-based join optimization is not feasible.
+- `references/cases/use-tiflash-mpp-for-large-aggregation.md` - Use TiFlash or MPP for large aggregations when index-based StreamAgg optimization is not feasible.
