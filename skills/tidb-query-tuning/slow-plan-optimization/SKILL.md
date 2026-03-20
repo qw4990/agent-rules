@@ -38,6 +38,20 @@ description: Template skill for slow plan optimization in TiDB. Use when adding 
 - If diagnosis says non-plan problem, stop plan tuning and return only the non-plan conclusion.
 - Do not jump to index or SQL rewrite suggestions before considering binding/hints.
 - Use runtime evidence from `EXPLAIN ANALYZE` to justify each recommendation.
+- When recommending new indexes, avoid duplicated indexes.
+
+## Index Recommendation Rules
+
+- Treat indexes as duplicated when one index is a left-prefix of another index.
+  - Example: `idx(a, b)` is duplicated by `idx(a, b, c)`.
+- Prefer the longer duplicated index, because it can cover more predicates.
+  - Example: `idx(a, b, c)` is better than `idx(a, b)` when both are candidates.
+- If the plan is already using `idx(a, b, c)`, do not recommend `idx(a, b)` for queries like `WHERE a = ? AND b > ?`.
+- If table schema already has `idx(a, b, c)`, do not recommend creating `idx(a, b)`.
+- If there is an existing index that can cover more query predicates (especially `EQ`/`IN`) but the plan is not using it, treat this as a possible index-selection problem.
+- For index-selection problems, guide the user to try optimizer hints/bindings first to force the better index choice.
+  - Example: query `WHERE a = ? AND b = ? AND c > ? AND d = ?` uses `idx(a, c)`, but schema has `idx(a, b, d)`.
+  - In this case, prefer guiding hint-based index selection before recommending new index creation.
 
 ## Non-Plan Cases
 
