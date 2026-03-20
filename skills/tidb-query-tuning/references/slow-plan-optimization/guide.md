@@ -58,9 +58,9 @@ This is a sub-module of `tidb-query-tuning`, not an independent skill entry poin
 
 ## Useful References
 
-- `references/cases/use-covering-index-to-avoid-double-scan.md` - Use covering indexes to reduce index lookup double-read cost.
-- `references/cases/use-tiflash-to-speed-up-large-scan.md` - Use TiFlash for large scan and analytical workloads.
-- `references/cases/use-tiflash-mpp-for-large-join.md` - Use TiFlash or MPP for large joins when index-based join optimization is not feasible.
-- `references/cases/use-tiflash-mpp-for-large-aggregation.md` - Use TiFlash or MPP for large aggregations when index-based StreamAgg optimization is not feasible.
-- `references/cases/use-index-merge-for-dnf-predicates.md` - Consider IndexMerge for DNF predicates such as `a = ? OR b = ? OR c > ?`.
-- `references/cases/use-covering-index-for-filter-and-order-by.md` - Use covering index to optimize `WHERE ... ORDER BY ...` patterns.
+- `cases/use-covering-index-to-avoid-double-scan.md` - Use covering indexes to reduce index lookup double-read cost.
+- `cases/use-tiflash-to-speed-up-large-scan.md` - Use TiFlash for large scan and analytical workloads.
+- `cases/use-tiflash-mpp-for-large-join.md` - Use TiFlash or MPP for large joins when index-based join optimization is not feasible.
+- `cases/use-tiflash-mpp-for-large-aggregation.md` - Use TiFlash or MPP for large aggregations when index-based StreamAgg optimization is not feasible.
+- `cases/use-index-merge-for-dnf-predicates.md` - Consider IndexMerge for DNF predicates such as `a = ? OR b = ? OR c > ?`.
+- `cases/use-covering-index-for-filter-and-order-by.md` - Use covering index to optimize `WHERE ... ORDER BY ...` patterns.
