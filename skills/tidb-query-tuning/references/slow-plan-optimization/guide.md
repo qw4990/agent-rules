@@ -19,6 +19,7 @@ This is a sub-module of `tidb-query-tuning`, not an independent skill entry poin
   - If the bottleneck operator processes only a small number of rows but still takes a long time, treat it as likely not a query plan problem.
 - If it is not a query plan problem, or there is no clear room for plan-side improvement, do not provide plan optimization suggestions.
   - Output a clear conclusion such as: "Can't improve this query from the plan perspective; this might be a <component> problem."
+  - If plan is already optimal and bottleneck is at execution layer, suggest increasing execution engine concurrency as a possible non-plan solution.
 - Use bottleneck-targeted methods first if and only if it is a query plan problem.
 - Figure out optimization methods that directly target that bottleneck operator.
 - Output suggestions in this strict order:
@@ -33,6 +34,7 @@ This is a sub-module of `tidb-query-tuning`, not an independent skill entry poin
 - Keep analysis priority fixed: identify bottleneck operator -> optimize bottleneck -> output suggestions.
 - Keep diagnosis priority fixed: determine plan problem vs non-plan problem before plan changes.
 - If diagnosis says non-plan problem, stop plan tuning and return only the non-plan conclusion.
+- If diagnosis says execution-layer bottleneck with an already-optimal plan, allow concurrency tuning suggestion as non-plan guidance.
 - Do not jump to index or SQL rewrite suggestions before considering binding/hints.
 - Use runtime evidence from `EXPLAIN ANALYZE` to justify each recommendation.
 - When recommending new indexes, avoid duplicated indexes.
@@ -55,6 +57,7 @@ This is a sub-module of `tidb-query-tuning`, not an independent skill entry poin
 - `PointGet` or `BatchPointGet` as bottleneck usually means the plan is already optimal; suspect TiKV hotspot or storage-side latency.
 - Small `IndexRangeScan`/`TableRangeScan` (for example ~100 rows) but long latency usually points to TiKV-side issues, not plan shape.
 - Small-row `Hash`/`Agg`/`Sort` (for example ~1000 rows) but long latency is usually not a query plan problem.
+- If plan is already optimal and bottleneck is execution-layer scheduling/compute, consider increasing execution engine concurrency.
 
 ## Useful References
 
