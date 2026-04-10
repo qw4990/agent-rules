@@ -43,6 +43,9 @@ Use this skill to diagnose and resolve TiDB query performance issues. It follows
 5. **Apply the fix:**
    - Prefer the least invasive change: refresh stats → add index → SQL Binding → hint → session variable.
    - **SQL Binding**: Fix plans without code changes: `CREATE GLOBAL BINDING FOR <stmt> USING <hinted_stmt>;`.
+   - **Binding cleanup safety**: TiDB currently has no batch-delete API for global bindings. Do **not** run `DELETE` on `mysql.bind_info` directly. Use `DROP GLOBAL BINDING ...` for each target binding instead.
+   - **If direct delete was already executed**: `ADMIN RELOAD BINDINGS` may still leave stale entries in the in-memory binding cache. In this case, restart the TiDB server to fully clear and rebuild binding cache state.
+   - See `references/optimizer-oncall-experiences-redacted/direct-delete-bind-info-leaves-stale-binding-cache.md` for a full reproduction and recovery checklist.
    - **Hints & Variables**: Use hints when the fix is query-specific; use session variables when it applies to a workload pattern.
    - **Bug Report**: If it's a confirmed bug, follow the workflow in `references/bug-report.md`. **Anonymize all sensitive data** before reporting.
 
@@ -61,6 +64,8 @@ Use this skill to diagnose and resolve TiDB query performance issues. It follows
 - **Correlated subqueries:** TiDB decorrelates by default. When the subquery is well-indexed and the outer query is selective, `NO_DECORRELATE()` often wins. See `references/subquery-optimization.md`.
 - **Join strategies matter:** TiDB supports hash join, index join, merge join, and shuffle joins. The right choice depends on table sizes, index availability, and data distribution. See `references/join-strategies.md`.
 - **Hints are per-query; variables are per-session/global.** Use hints for surgical fixes, variables for workload-wide tuning.
+- **TiDB currently has no batch-delete API for global bindings.** Do not delete rows from `mysql.bind_info` directly; use `DROP GLOBAL BINDING` instead.
+- **If `mysql.bind_info` was modified directly and reload does not clear bindings, restart TiDB.** `ADMIN RELOAD BINDINGS` might not fully remove stale in-memory binding cache entries after direct table deletes.
 - **TiFlash acceleration:** For analytical queries on large tables, push computation to TiFlash replicas using `READ_FROM_STORAGE(TIFLASH[<table>])`. See `references/session-variables.md`.
 - **Anonymize sensitive info.** Before reporting bugs, ensure table names, columns, and data are anonymized.
 - **Reproduce before suggesting upgrades.** Use TiUP playground to verify if a newer version actually fixes the issue.
